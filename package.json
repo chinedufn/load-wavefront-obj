@@ -1,0 +1,32 @@
+{
+  "name": "load-wavefront-obj",
+  "version": "0.0.1",
+  "description": "Load the graphics buffer data from an obj model and return a draw command that accepts options",
+  "main": "src/load-wavefront-obj.js",
+  "scripts": {
+    "test": "standard && node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chinedufn/load-wavefront-obj.git"
+  },
+  "keywords": [
+    "wavefront",
+    "obj",
+    "load",
+    "3d",
+    "model",
+    "webgl"
+  ],
+  "author": "Chinedu Francis Nwafili <frankie.nwafili@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chinedufn/load-wavefront-obj/issues"
+  },
+  "homepage": "https://github.com/chinedufn/load-wavefront-obj#readme",
+  "devDependencies": {
+    "gl": "^4.0.2",
+    "standard": "^7.1.2",
+    "tape": "^4.6.0"
+  }
+}
