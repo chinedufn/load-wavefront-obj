@@ -3,7 +3,10 @@ var initShader = require('./shader/init-shader.js')
 var initTexture = require('./texture/init-texture.js')
 
 var mat4Create = require('gl-mat4/create')
+var mat4Multiply = require('gl-mat4/multiply')
 var mat4Translate = require('gl-mat4/translate')
+
+var extend = require('xtend')
 
 var mat3NormalFromMat4 = require('gl-mat3/normalFromMat4')
 
@@ -20,7 +23,11 @@ function LoadWavefrontObj (gl, opts) {
   var numIndices = expandedVertexData.positionIndices.length
 
   var shaderObj = initShader(gl)
-  var textureObj = initTexture(gl)
+  var textureObj = initTexture(gl, opts)
+
+  var defaults = {
+    viewMatrix: mat4Create()
+  }
 
   return {
     draw: draw
@@ -28,9 +35,12 @@ function LoadWavefrontObj (gl, opts) {
 
   // TODO: Pull out into own file
   function draw (gl, opts) {
+    opts = extend(defaults, opts)
+
     var modelMatrix = mat4Create()
     var modelPosition = [0.0, -1.0, -10.0]
     mat4Translate(modelMatrix, modelMatrix, modelPosition)
+    mat4Multiply(modelMatrix, opts.viewMatrix, modelMatrix)
 
     // TODO: Should the consumer be in charge of `useProgram` and we just return the shaderProgram during model init?
     gl.useProgram(shaderObj.program)
