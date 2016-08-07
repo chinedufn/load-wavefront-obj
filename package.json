@@ -1,6 +1,6 @@
 {
   "name": "load-wavefront-obj",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Load the graphics buffer data from an obj model and return a draw command that accepts options",
   "main": "src/load-wavefront-obj.js",
   "scripts": {
