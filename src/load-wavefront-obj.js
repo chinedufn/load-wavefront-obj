@@ -5,15 +5,16 @@ var initTexture = require('./texture/init-texture.js')
 var mat4Create = require('gl-mat4/create')
 var mat4Multiply = require('gl-mat4/multiply')
 var mat4Translate = require('gl-mat4/translate')
+var mat4Perspective = require('gl-mat4/perspective')
 
 var extend = require('xtend')
 
-var mat3NormalFromMat4 = require('gl-mat3/normalFromMat4')
+var mat3NormalFromMat4 = require('gl-mat3/normal-from-mat4')
 
 module.exports = LoadWavefrontObj
 
-function LoadWavefrontObj (gl, opts) {
-  var expandedVertexData = dedupeVertexIndices(opts.modelJSON)
+function LoadWavefrontObj (gl, modelJSON, opts) {
+  var expandedVertexData = dedupeVertexIndices(modelJSON)
 
   var vertexPositionBuffer = createBuffer(gl, 'ARRAY_BUFFER', Float32Array, expandedVertexData.positions)
   var vertexPositionIndexBuffer = createBuffer(gl, 'ELEMENT_ARRAY_BUFFER', Uint16Array, expandedVertexData.positionIndices)
@@ -23,11 +24,12 @@ function LoadWavefrontObj (gl, opts) {
   var numIndices = expandedVertexData.positionIndices.length
 
   var shaderObj = initShader(gl)
-  var textureObj = initTexture(gl, opts)
+  var modelTexture = initTexture(gl, opts)
 
   var defaults = {
     viewMatrix: mat4Create(),
-    position: [0.0, -1.0, -10.0]
+    perspective: mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
+    position: [0.0, 0.0, -9.0]
   }
 
   return {
@@ -54,7 +56,7 @@ function LoadWavefrontObj (gl, opts) {
     gl.vertexAttribPointer(shaderObj.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0)
 
     gl.activeTexture(gl.TEXTURE0)
-    gl.bindTexture(gl.TEXTURE_2D, textureObj.textures[0])
+    gl.bindTexture(gl.TEXTURE_2D, modelTexture)
     gl.uniform1i(shaderObj.samplerUniform, 0)
 
     // Normals
@@ -71,7 +73,7 @@ function LoadWavefrontObj (gl, opts) {
     // Drawing the model
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexPositionIndexBuffer)
 
-    gl.uniformMatrix4fv(shaderObj.pMatrixUniform, false, opts.pMatrix)
+    gl.uniformMatrix4fv(shaderObj.pMatrixUniform, false, opts.perspective)
     gl.uniformMatrix4fv(shaderObj.mvMatrixUniform, false, modelMatrix)
 
     gl.drawElements(gl.TRIANGLES, numIndices, gl.UNSIGNED_SHORT, 0)
@@ -81,5 +83,6 @@ function LoadWavefrontObj (gl, opts) {
 function createBuffer (gl, bufferType, DataType, data) {
   var buffer = gl.createBuffer()
   gl.bindBuffer(gl[bufferType], buffer)
-  gl.bufferDatd(gl[bufferType], new DataType(data), gl.STATIC_DRAW)
+  gl.bufferData(gl[bufferType], new DataType(data), gl.STATIC_DRAW)
+  return buffer
 }

@@ -16,6 +16,7 @@ function InitShader (gl, opts) {
   var shaderProgram = gl.createProgram()
   gl.attachShader(shaderProgram, fragmentShader)
   gl.attachShader(shaderProgram, vertexShader)
+  gl.linkProgram(shaderProgram)
 
   var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'aVertexPosition')
   gl.enableVertexAttribArray(vertexPositionAttribute)

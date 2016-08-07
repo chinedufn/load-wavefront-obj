@@ -20,6 +20,7 @@ function CreateVertexShader (opts) {
       gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
       vTextureCoord = aTextureCoord;
 
+      vec3 transformedNormal = uNMatrix * aVertexNormal;
       vLightWeighting = uAmbientColor;
     }
   `
