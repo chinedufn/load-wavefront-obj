@@ -16,6 +16,24 @@ $ npm install --save load-wavefront-obj
 
 ## Running the demo locally
 
+## Usage
+
+```js
+var loadWFObj = require('load-wavefront-obj')
+
+// This would typically happen before runtime and you would load pre-parsed JSON
+var parseWFObj = require('wavefront-obj-parser')
+var modelJSON = parseWFObj(GetColladaFileSomehow())
+var gl = GetCanvasWebGLContextSomehow()
+
+// This can be a DOM image element or a Uint8Array of pixel data
+var image = document.getElementById('some-already-loaded-image')
+
+var modelJSON = wavefrontObjParser(gl, modelJSON, {texureImage: image})
+
+modelJSON.draw({position: [2, 0, -10], perspective: myPerspectiveMatrix, viewMatrix: myViewMatrix})
+```
+
 ## API
 
 ```js
