@@ -37,6 +37,8 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
   }
 
   // TODO: Pull out into own file
+  // TODO: Add test for drawing 2 models with different number of vertex attribute arrays
+  //        Make sure we enable and disable properly. Adding this in without tests for now..
   function draw (gl, opts) {
     opts = extend(defaults, opts)
 
@@ -49,10 +51,12 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     gl.useProgram(shaderObj.program)
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer)
+    gl.enableVertexAttribArray(shaderObj.vertexPositionAttribute)
     gl.vertexAttribPointer(shaderObj.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
 
     // Textures
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureBuffer)
+    gl.enableVertexAttribArray(shaderObj.textureCoordAttribute)
     gl.vertexAttribPointer(shaderObj.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0)
 
     gl.activeTexture(gl.TEXTURE0)
@@ -61,6 +65,7 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
 
     // Normals
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexNormalBuffer)
+    gl.enableVertexAttribArray(shaderObj.vertexNormalAttribute)
     gl.vertexAttribPointer(shaderObj.vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0)
 
     var normalMatrix = []
@@ -77,6 +82,11 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     gl.uniformMatrix4fv(shaderObj.mvMatrixUniform, false, modelMatrix)
 
     gl.drawElements(gl.TRIANGLES, numIndices, gl.UNSIGNED_SHORT, 0)
+
+    // Clean up
+    gl.disableVertexAttribArray(shaderObj.vertexPositionAttribute)
+    gl.disableVertexAttribArray(shaderObj.textureCoordAttribute)
+    gl.disableVertexAttribArray(shaderObj.vertexNormalAttribute)
   }
 }
 

@@ -18,15 +18,6 @@ function InitShader (gl, opts) {
   gl.attachShader(shaderProgram, vertexShader)
   gl.linkProgram(shaderProgram)
 
-  var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'aVertexPosition')
-  gl.enableVertexAttribArray(vertexPositionAttribute)
-
-  var textureCoordAttribute = gl.getAttribLocation(shaderProgram, 'aTextureCoord')
-  gl.enableVertexAttribArray(textureCoordAttribute)
-
-  var vertexNormalAttribute = gl.getAttribLocation(shaderProgram, 'aVertexNormal')
-  gl.enableVertexAttribArray(vertexNormalAttribute)
-
   // Return our shader data object
   return {
     ambientColorUniform: gl.getUniformLocation(shaderProgram, 'uAmbientColor'),
@@ -35,8 +26,8 @@ function InitShader (gl, opts) {
     pMatrixUniform: gl.getUniformLocation(shaderProgram, 'uPMatrix'),
     program: shaderProgram,
     samplerUniform: gl.getUniformLocation(shaderProgram, 'uSampler'),
-    textureCoordAttribute: textureCoordAttribute,
-    vertexPositionAttribute: vertexPositionAttribute,
-    vertexNormalAttribute: vertexNormalAttribute
+    textureCoordAttribute: gl.getAttribLocation(shaderProgram, 'aTextureCoord'),
+    vertexPositionAttribute: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+    vertexNormalAttribute: gl.getAttribLocation(shaderProgram, 'aVertexNormal')
   }
 }
