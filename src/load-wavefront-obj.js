@@ -26,7 +26,8 @@ function LoadWavefrontObj (gl, opts) {
   var textureObj = initTexture(gl, opts)
 
   var defaults = {
-    viewMatrix: mat4Create()
+    viewMatrix: mat4Create(),
+    position: [0.0, -1.0, -10.0]
   }
 
   return {
@@ -38,7 +39,7 @@ function LoadWavefrontObj (gl, opts) {
     opts = extend(defaults, opts)
 
     var modelMatrix = mat4Create()
-    var modelPosition = [0.0, -1.0, -10.0]
+    var modelPosition = opts.position
     mat4Translate(modelMatrix, modelMatrix, modelPosition)
     mat4Multiply(modelMatrix, opts.viewMatrix, modelMatrix)
 

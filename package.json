@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/chinedufn/load-wavefront-obj#readme",
   "devDependencies": {
+    "get-pixels": "^3.3.0",
     "gl": "^4.0.2",
     "standard": "^7.1.2",
     "tape": "^4.6.0"
