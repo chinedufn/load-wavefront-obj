@@ -16,29 +16,31 @@ $ npm install --save load-wavefront-obj
 
 ## Running the demo locally
 
+// TODO
+
 ## Usage
 
 ```js
 var loadWFObj = require('load-wavefront-obj')
 
-// This would typically happen before runtime and you would load pre-parsed JSON
+// You would usually parse your .obj files before runtime and then `xhr` GET request the pre-parsed JSON
 var parseWFObj = require('wavefront-obj-parser')
 var modelJSON = parseWFObj(GetColladaFileSomehow())
+
 var gl = GetCanvasWebGLContextSomehow()
 
 // This can be a DOM image element or a Uint8Array of pixel data
 var image = document.getElementById('some-already-loaded-image')
 
-var modelJSON = wavefrontObjParser(gl, modelJSON, {texureImage: image})
+var model = loadWFObj(gl, modelJSON, {texureImage: image})
 
-modelJSON.draw({position: [2, 0, -10], perspective: myPerspectiveMatrix, viewMatrix: myViewMatrix})
+// Later inside of your render function
+model.draw({position: [0, -1, -5]})
 ```
+
+See something broken, confusing or ripe for improvement? Feel free to open an issue or PR!
 
 ## API
-
-```js
-// TODO
-```
 
 ### `loadWFObj(parsedWFJSON, options)` -> `object`
 
@@ -50,18 +52,80 @@ Type: `string`
 
 A wavefront `.obj` file that has been parsed into JSON.
 
-Usually you'd use [wavefront-obj-parser](https://github.com/wavefront-obj-parser) to parser the `.obj` file pre-runtime
+Usually you'd use [wavefront-obj-parser](https://github.com/wavefront-obj-parser) to parser the `.obj` file pre-runtime.
+But any parser that outputs the same format will do.
 
+#### Options
 
-### Returned Object
+*Optional*
 
-Returns a `model` object with a `draw` command
+type: `object`
+
+`load-wavefront-obj` comes with default options, but you'll likely want to override some.
+
+```js
+var myOptions = {
+  textureImage: document.getElementById('some-already-loaded-image') || new Uint8Array([255, 0, 0, 255])
+}
+```
+
+##### textureImage
+
+*type* `HTMLImageElement` or `Uint8Array`
+
+You pass in an [HTMLImageElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement) or [Uint8Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) for your model's texture
+
+If using an image element, make sure that the onload event has already fired
+
+```js
+// example of loading the image
+var image = document.getElementById('my-image') || new window.Image()
+image.src = 'https://cool-image-texture.com/cool-image.jpg'
+image.onload = function () {
+  loadWFObj(gl, modelJSON, {textureImage: image})
+}
+```
+
+### Returned Model Object
+
+We return a `model` object with a `draw` function
 
 #### `model.draw([options])` -> `render to canvas`
 
+##### Options
+
 ```js
-// TODO
+// Example overrides
+var myOptions = {
+  perspective: require('gl-mat4/perspective')([], Math.PI / 3, 512 / 512, 0.1, 30),
+  position: [5.0, 1.0, -20.0],
+  viewMatrix: [1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 10, 10, 1]
+}
 ```
+
+###### perspective
+
+Type: [mat4](https://github.com/stackgl/gl-mat4)
+
+Default: `mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100)`
+
+Your perspective matrix
+
+###### position
+
+Type: `Array`
+
+Default: `[0.0, 0.0, -5.0]`
+
+The x, y and z position of your model in the world.
+
+###### viewMatrix
+
+Type: 'Array'
+
+Default: `[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]` (Identity Matrix)
+
+Your camera's view matrix
 
 ## TODO:
 

@@ -27,9 +27,9 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
   var modelTexture = initTexture(gl, opts)
 
   var defaults = {
-    viewMatrix: mat4Create(),
     perspective: mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
-    position: [0.0, 0.0, -9.0]
+    position: [0.0, 0.0, -5.0],
+    viewMatrix: mat4Create()
   }
 
   return {
