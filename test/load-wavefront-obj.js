@@ -34,7 +34,7 @@ test('Cube model with positions, texture, and normals', function (t) {
   }
 
   var model = loadWFObj(gl, texturedCubeJSON, {textureImage: imageData})
-  model.draw(gl)
+  model.draw()
 
   var pixels = new Uint8Array(width * height * 4)
   gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels)

@@ -33,7 +33,7 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
   }
 
   return {
-    draw: draw
+    draw: draw.bind(null, gl)
   }
 
   // TODO: Pull out into own file
