@@ -134,6 +134,14 @@ Your camera's view matrix
 - [ ] Demo using [regl](https://github.com/mikolalysenko/regl)
 - [ ] Add tests using `require('gl')` and test against expected `.png` file fixtures. [example](https://github.com/msfeldstein/interactive-shader-format-js/blob/v2/tests/renderer-test.js)
 
+## To Test:
+
+*The test suite requires [imagemagick](http://www.imagemagick.org/script/index.php) to be installed locally*
+
+```sh
+$ npm run test
+```
+
 ## See Also
 
 - [wavefront-obj-parser](https://github.com/chinedufn/wavefront-obj-parser)
