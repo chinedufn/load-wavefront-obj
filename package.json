@@ -27,6 +27,7 @@
   "devDependencies": {
     "get-pixels": "^3.3.0",
     "gl": "^4.0.2",
+    "image-diff": "^1.6.3",
     "standard": "^7.1.2",
     "tape": "^4.6.0"
   },
