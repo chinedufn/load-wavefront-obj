@@ -25,7 +25,7 @@ var loadWFObj = require('load-wavefront-obj')
 
 // You would usually parse your .obj files before runtime and then `xhr` GET request the pre-parsed JSON
 var parseWFObj = require('wavefront-obj-parser')
-var modelJSON = parseWFObj(GetColladaFileSomehow())
+var modelJSON = parseWFObj(GetWavefrontFileSomehow())
 
 var gl = GetCanvasWebGLContextSomehow()
 
