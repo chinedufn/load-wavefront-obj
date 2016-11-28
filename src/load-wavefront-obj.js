@@ -27,6 +27,7 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
   var modelTexture = initTexture(gl, opts)
 
   var defaults = {
+    ambient: [1.0, 1.0, 1.0],
     perspective: mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
     position: [0.0, 0.0, -5.0],
     viewMatrix: mat4Create()
@@ -73,7 +74,7 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     gl.uniformMatrix3fv(shaderObj.nMatrixUniform, false, normalMatrix)
 
     // Lighting
-    gl.uniform3f(shaderObj.ambientColorUniform, 1.0, 0.3, 0.3)
+    gl.uniform3fv(shaderObj.ambientColorUniform, opts.ambient)
 
     // Drawing the model
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexPositionIndexBuffer)
