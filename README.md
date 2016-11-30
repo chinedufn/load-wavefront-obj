@@ -1,7 +1,7 @@
 load-wavefront-obj [![npm version](https://badge.fury.io/js/load-wavefront-obj.svg)](http://badge.fury.io/js/load-wavefront-obj) [![Build Status](https://travis-ci.org/chinedufn/load-wavefront-obj.svg?branch=master)](https://travis-ci.org/chinedufn/load-wavefront-obj)
 ====================
 
-WORK IN PROGRESS
+STILL VERY MUCH A WORK IN PROGRESS
 ================
 
 > Loads the graphics buffer data from a [.obj file](https://en.wikipedia.org/wiki/Wavefront_.obj_file) that's been parsed using a [.obj parser](https://github.com/chinedufn/wavefront-obj-parser) and return a draw command that accepts options
@@ -97,11 +97,23 @@ We return a `model` object with a `draw` function
 ```js
 // Example overrides
 var myOptions = {
+  ambient: [1.0, 0.0, 0.0],
   perspective: require('gl-mat4/perspective')([], Math.PI / 3, 512 / 512, 0.1, 30),
   position: [5.0, 1.0, -20.0],
+  rotateX: Math.PI / 4,
+  rotateY: Math.PI / 2,
+  rotateZ: Math.PI,
   viewMatrix: [1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 10, 10, 1]
 }
 ```
+
+###### ambient
+
+Type: `Array[3]`
+
+Default: `[1.0, 1.0, 1.0]`
+
+The red, green and blue ambient lighting for your model. Each can range between `0.0` - `1.0`
 
 ###### perspective
 
@@ -113,7 +125,7 @@ Your perspective matrix
 
 ###### position
 
-Type: `Array`
+Type: `Array[3]`
 
 Default: `[0.0, 0.0, -5.0]`
 
@@ -121,17 +133,30 @@ The x, y and z position of your model in the world.
 
 ###### viewMatrix
 
-Type: 'Array'
+Type: 'Array[3]'
 
 Default: `[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]` (Identity Matrix)
 
 Your camera's view matrix
+
+###### rotateX | rotateY | rotateZ
+
+Type: `Number`
+
+Default: `0.0`
+
+Your model's X, Y or Z rotation.
+
+This rotation happens in place after it has been translated to its position.
+If you want to rotate your model about a world axis, simply apply the relevant transformation to its position (documented above)
+before passing it in
 
 ## TODO:
 
 - [x] Finish the first iteration of the draw function
 - [ ] Demo in raw WebGL
 - [ ] Demo using [regl](https://github.com/mikolalysenko/regl)
+- [ ] Write Documentation
 - [ ] Add tests using `require('gl')` and test against expected `.png` file fixtures. [example](https://github.com/msfeldstein/interactive-shader-format-js/blob/v2/tests/renderer-test.js)
 
 ## To Test:
@@ -146,6 +171,7 @@ $ npm run test
 
 - [wavefront-obj-parser](https://github.com/chinedufn/wavefront-obj-parser)
 - [collada-dae-parser](https://github.com/chinedufn/collada-dae-parser)
+- [load-collada-dae](https://github.com/chinedufn/load-collada-dae)
 
 ## License
 
