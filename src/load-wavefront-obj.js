@@ -33,9 +33,10 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     ambient: [1.0, 1.0, 1.0],
     perspective: mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
     position: [0.0, 0.0, -5.0],
-    rotationX: 0.0,
-    rotationY: 0.0,
-    rotationZ: 0.0,
+    // Rotate the model in place
+    rotateX: 0.0,
+    rotateY: 0.0,
+    rotateZ: 0.0,
     viewMatrix: mat4Create()
   }
 
@@ -50,10 +51,15 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     opts = extend(defaults, opts)
 
     var modelMatrix = mat4Create()
+    mat4Translate(modelMatrix, modelMatrix, opts.position)
+
+    // We rotate the model in place. If you want to rotate it about an axis
+    //  you can handle that by letting the consumer of this module manipulate
+    //  the model's position occordingly
     mat4RotateX(modelMatrix, modelMatrix, opts.rotationX)
     mat4RotateY(modelMatrix, modelMatrix, opts.rotationY)
     mat4RotateZ(modelMatrix, modelMatrix, opts.rotationZ)
-    mat4Translate(modelMatrix, modelMatrix, opts.position)
+
     mat4Multiply(modelMatrix, opts.viewMatrix, modelMatrix)
 
     // TODO: Should the consumer be in charge of `useProgram` and we just return the shaderProgram during model init?
