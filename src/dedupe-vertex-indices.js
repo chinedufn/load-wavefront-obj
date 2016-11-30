@@ -17,9 +17,9 @@ function DedupeVertexIndices (modelJSON) {
   var encounteredIndices = {}
   var largestPositionIndex = 0
 
-  var expandedVertexIndices = expandVertexIndices(modelJSON.vertexIndex)
+  var decodedIndices = expandVertexIndices(modelJSON)
 
-  expandedVertexIndices.forEach(function (vertexIndex, counter) {
+  decodedIndices.decodedPositionIndices.forEach(function (vertexIndex, counter) {
     largestPositionIndex = Math.max(largestPositionIndex, vertexIndex)
     // If this is our first time seeing the vertex index we add it
     // Later we'll add all of the duplicate indices into the end of the array
@@ -28,23 +28,23 @@ function DedupeVertexIndices (modelJSON) {
       // Push the appropriate UV coordinates
       for (var i = 0; i < 3; i++) {
         if (i < 2) {
-          expandedVertexUVs[vertexIndex * 2 + i] = modelJSON.uv[modelJSON.uvIndex[counter] * 2 + i]
+          expandedVertexUVs[vertexIndex * 2 + i] = modelJSON.uv[decodedIndices.decodedUVIndices[counter] * 2 + i]
         }
-        expandedVertexNormals[vertexIndex * 3 + i] = modelJSON.normal[modelJSON.normalIndex[counter] * 3 + i]
+        expandedVertexNormals[vertexIndex * 3 + i] = modelJSON.normal[decodedIndices.decodedNormalIndices[counter] * 3 + i]
       }
       encounteredIndices[vertexIndex] = true
     }
   })
-  expandedVertexIndices.forEach(function (vertexIndex, counter) {
+  decodedIndices.decodedPositionIndices.forEach(function (vertexIndex, counter) {
     // Add all of the duplicate indices that we skipped over above
     if (encounteredIndices[vertexIndex]) {
       expandedVertexPositionIndices[counter] = ++largestPositionIndex
       for (var i = 0; i < 3; i++) {
         if (i < 2) {
-          expandedVertexUVs[largestPositionIndex * 2 + i] = modelJSON.uv[modelJSON.uvIndex[counter] * 2 + i]
+          expandedVertexUVs[largestPositionIndex * 2 + i] = modelJSON.uv[decodedIndices.decodedUVIndices[counter] * 2 + i]
         }
         expandedVertexPositions[largestPositionIndex * 3 + i] = modelJSON.vertex[vertexIndex * 3 + i]
-        expandedVertexNormals[largestPositionIndex * 3 + i] = modelJSON.normal[modelJSON.normalIndex[counter] * 3 + i]
+        expandedVertexNormals[largestPositionIndex * 3 + i] = modelJSON.normal[decodedIndices.decodedNormalIndices[counter] * 3 + i]
       }
     }
   })
