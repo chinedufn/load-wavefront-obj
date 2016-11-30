@@ -36,7 +36,7 @@ test('Cube model with positions, texture, and normals', function (t) {
   // Load and draw our wavefront model
   var texturedCubeJSON = JSON.parse(fs.readFileSync(path.resolve(__dirname, './fixture/textured-cube.json')))
   var model = loadWFObj(gl, texturedCubeJSON, {textureImage: imageData})
-  model.draw({})
+  model.draw({rotationZ: Math.PI / 2})
 
   // Get our pixels from our canvas drawinf
   var pixels = new Uint8Array(canvasWidth * canvasHeight * 4)

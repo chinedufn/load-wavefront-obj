@@ -4,6 +4,9 @@ var initTexture = require('./texture/init-texture.js')
 
 var mat4Create = require('gl-mat4/create')
 var mat4Multiply = require('gl-mat4/multiply')
+var mat4RotateX = require('gl-mat4/rotateX')
+var mat4RotateY = require('gl-mat4/rotateY')
+var mat4RotateZ = require('gl-mat4/rotateZ')
 var mat4Translate = require('gl-mat4/translate')
 var mat4Perspective = require('gl-mat4/perspective')
 
@@ -30,6 +33,9 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     ambient: [1.0, 1.0, 1.0],
     perspective: mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
     position: [0.0, 0.0, -5.0],
+    rotationX: 0.0,
+    rotationY: 0.0,
+    rotationZ: 0.0,
     viewMatrix: mat4Create()
   }
 
@@ -44,8 +50,10 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     opts = extend(defaults, opts)
 
     var modelMatrix = mat4Create()
-    var modelPosition = opts.position
-    mat4Translate(modelMatrix, modelMatrix, modelPosition)
+    mat4RotateX(modelMatrix, modelMatrix, opts.rotationX)
+    mat4RotateY(modelMatrix, modelMatrix, opts.rotationY)
+    mat4RotateZ(modelMatrix, modelMatrix, opts.rotationZ)
+    mat4Translate(modelMatrix, modelMatrix, opts.position)
     mat4Multiply(modelMatrix, opts.viewMatrix, modelMatrix)
 
     // TODO: Should the consumer be in charge of `useProgram` and we just return the shaderProgram during model init?
