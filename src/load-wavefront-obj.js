@@ -56,9 +56,9 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
     // We rotate the model in place. If you want to rotate it about an axis
     //  you can handle that by letting the consumer of this module manipulate
     //  the model's position occordingly
-    mat4RotateX(modelMatrix, modelMatrix, opts.rotationX)
-    mat4RotateY(modelMatrix, modelMatrix, opts.rotationY)
-    mat4RotateZ(modelMatrix, modelMatrix, opts.rotationZ)
+    mat4RotateX(modelMatrix, modelMatrix, opts.rotateX)
+    mat4RotateY(modelMatrix, modelMatrix, opts.rotateY)
+    mat4RotateZ(modelMatrix, modelMatrix, opts.rotateZ)
 
     mat4Multiply(modelMatrix, opts.viewMatrix, modelMatrix)
 
