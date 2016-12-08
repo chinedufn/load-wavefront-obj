@@ -14,6 +14,10 @@ STILL VERY MUCH A WORK IN PROGRESS
 $ npm install --save load-wavefront-obj
 ```
 
+## Tutorials
+
+- [Drawing a rotating 3D airplane model](http://www.chinedufn.com/webgl-step-by-step-load-wavefront-obj)
+
 ## Running the demo locally
 
 // TODO
