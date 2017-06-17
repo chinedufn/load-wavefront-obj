@@ -39,14 +39,21 @@ var image = document.getElementById('some-already-loaded-image')
 var model = loadWFObj(gl, modelJSON, {texureImage: image})
 
 // Later inside of your render function
-model.draw({position: [0, -1, -5]})
+model.draw({
+  attributes: model.attributes,
+  uniforms: {
+    // Specify your uniforms
+    uAmbientColor: [1.0, 1.0, 1.0],
+    // ...
+  }
+})
 ```
 
 See something broken, confusing or ripe for improvement? Feel free to open an issue or PR!
 
 ## API
 
-### `loadWFObj(parsedWFJSON, options)` -> `object`
+### `var model = loadWFObj(parsedWFJSON, options)` -> `object`
 
 #### parsedWFJSON
 
@@ -60,18 +67,6 @@ Usually you'd use [wavefront-obj-parser](https://github.com/wavefront-obj-parser
 But any parser that outputs the same format will do.
 
 #### Options
-
-*Optional*
-
-type: `object`
-
-`load-wavefront-obj` comes with default options, but you'll likely want to override some.
-
-```js
-var myOptions = {
-  textureImage: document.getElementById('some-already-loaded-image') || new Uint8Array([255, 0, 0, 255])
-}
-```
 
 ##### textureImage
 
@@ -90,70 +85,9 @@ image.onload = function () {
 }
 ```
 
-### Returned Model Object
+#### model
 
-We return a `model` object with a `draw` function
-
-#### `model.draw([options])` -> `render to canvas`
-
-##### Options
-
-```js
-// Example overrides
-var myOptions = {
-  ambient: [1.0, 0.0, 0.0],
-  perspective: require('gl-mat4/perspective')([], Math.PI / 3, 512 / 512, 0.1, 30),
-  position: [5.0, 1.0, -20.0],
-  rotateX: Math.PI / 4,
-  rotateY: Math.PI / 2,
-  rotateZ: Math.PI,
-  viewMatrix: [1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 10, 10, 1]
-}
-```
-
-###### ambient
-
-Type: `Array[3]`
-
-Default: `[1.0, 1.0, 1.0]`
-
-The red, green and blue ambient lighting for your model. Each can range between `0.0` - `1.0`
-
-###### perspective
-
-Type: [mat4](https://github.com/stackgl/gl-mat4)
-
-Default: `mat4Perspective([], Math.PI / 4, 256 / 256, 0.1, 100)`
-
-Your perspective matrix
-
-###### position
-
-Type: `Array[3]`
-
-Default: `[0.0, 0.0, -5.0]`
-
-The x, y and z position of your model in the world.
-
-###### viewMatrix
-
-Type: 'Array[3]'
-
-Default: `[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]` (Identity Matrix)
-
-Your camera's view matrix
-
-###### rotateX | rotateY | rotateZ
-
-Type: `Number`
-
-Default: `0.0`
-
-Your model's X, Y or Z rotation.
-
-This rotation happens in place after it has been translated to its position.
-If you want to rotate your model about a world axis, simply apply the relevant transformation to its position (documented above)
-before passing it in
+// lorem ipsum
 
 ## TODO:
 
