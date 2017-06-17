@@ -15,7 +15,11 @@ function LoadWavefrontObj (gl, modelJSON, opts) {
 
   var numIndices = expandedVertexData.positionIndices.length
 
-  var shader = createShaderProgram(gl, createVertexShader(opts), createFragmentShader(opts))
+  var shader = createShaderProgram(
+    gl,
+    (opts.createVertexShader || createVertexShader)(opts),
+    (opts.createFragmentShader || createFragmentShader)(opts)
+  )
   var modelTexture = initTexture(gl, opts)
 
   return {
