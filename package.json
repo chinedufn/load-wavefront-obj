@@ -25,13 +25,15 @@
   },
   "homepage": "https://github.com/chinedufn/load-wavefront-obj#readme",
   "devDependencies": {
-    "gl": "^4.0.2",
+    "gl": "^4.0.3",
     "image-diff": "^1.6.3",
     "save-pixels": "^2.3.4",
     "standard": "^7.1.2",
     "tape": "^4.6.0"
   },
   "dependencies": {
+    "create-draw-function": "0.0.1",
+    "create-shader-program": "^0.1.0",
     "gl-mat3": "^1.0.0",
     "gl-mat4": "^1.1.4",
     "gl-vec3": "^1.0.3",

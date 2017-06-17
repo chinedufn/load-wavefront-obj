@@ -10,6 +10,8 @@ var ndarray = require('ndarray')
 var savePixels = require('save-pixels')
 var imageDiff = require('image-diff')
 
+var mat4 = require('gl-mat4')
+
 // TODO: Work in progress...
 test('Cube model with positions, texture, and normals', function (t) {
   t.plan(2)
@@ -36,7 +38,22 @@ test('Cube model with positions, texture, and normals', function (t) {
   // Load and draw our wavefront model
   var texturedCubeJSON = JSON.parse(fs.readFileSync(path.resolve(__dirname, './fixture/textured-cube.json')))
   var model = loadWFObj(gl, texturedCubeJSON, {textureImage: imageData})
-  model.draw({rotationZ: Math.PI / 2})
+
+  var modelViewMatrix = mat4.create()
+  mat4.translate(modelViewMatrix, modelViewMatrix, [0, 0, -5])
+  mat4.rotateZ(modelViewMatrix, modelViewMatrix, Math.PI / 2)
+
+  gl.useProgram(model.shader.program)
+  model.draw({
+    attributes: model.attributes,
+    uniforms: {
+      uAmbientColor: [1.0, 1.0, 1.0],
+      // We aren't using lighting so just passing in an empty array
+      uNMatrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      uPMatrix: mat4.perspective([], Math.PI / 4, 256 / 256, 0.1, 100),
+      uMVMatrix: modelViewMatrix
+    }
+  })
 
   // Get our pixels from our canvas drawinf
   var pixels = new Uint8Array(canvasWidth * canvasHeight * 4)
